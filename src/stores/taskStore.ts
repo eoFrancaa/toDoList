@@ -20,10 +20,13 @@ export const useTaskStore = defineStore('tasks', () => {
   const tarefas = ref<Tarefa[]>(
 
     JSON.parse(
+
       localStorage.getItem('tarefas') || '[]'
+
     )
 
   )
+
 
 
   const tarefasConcluidas = computed(() => {
@@ -31,7 +34,7 @@ export const useTaskStore = defineStore('tasks', () => {
 
     return tarefas.value.filter(
 
-      tarefa => tarefa.concluida
+      t => t.concluida
 
     )
 
@@ -40,7 +43,21 @@ export const useTaskStore = defineStore('tasks', () => {
 
 
 
-  function adicionarTarefa(titulo:string){
+  const tarefasPendentes = computed(() => {
+
+
+    return tarefas.value.filter(
+
+      t => !t.concluida
+
+    )
+
+
+  })
+
+
+
+  function adicionarTarefa(titulo: string) {
 
 
     tarefas.value.push({
@@ -49,30 +66,28 @@ export const useTaskStore = defineStore('tasks', () => {
 
       titulo,
 
-      concluida:false
+      concluida: false
 
     })
 
 
     salvar()
 
-
   }
 
 
 
-
-  function concluirTarefa(id:number){
+  function concluirTarefa(id: number) {
 
 
     const tarefa = tarefas.value.find(
 
-      tarefa => tarefa.id === id
+      t => t.id === id
 
     )
 
 
-    if(tarefa){
+    if (tarefa) {
 
       tarefa.concluida = !tarefa.concluida
 
@@ -85,13 +100,12 @@ export const useTaskStore = defineStore('tasks', () => {
 
 
 
-
-  function excluirTarefa(id:number){
+  function excluirTarefa(id: number) {
 
 
     tarefas.value = tarefas.value.filter(
 
-      tarefa => tarefa.id !== id
+      t => t.id !== id
 
     )
 
@@ -103,7 +117,7 @@ export const useTaskStore = defineStore('tasks', () => {
 
 
 
-  function salvar(){
+  function salvar() {
 
 
     localStorage.setItem(
@@ -119,18 +133,21 @@ export const useTaskStore = defineStore('tasks', () => {
 
 
 
-
   return {
+
 
     tarefas,
 
     tarefasConcluidas,
+
+    tarefasPendentes,
 
     adicionarTarefa,
 
     concluirTarefa,
 
     excluirTarefa
+
 
   }
 

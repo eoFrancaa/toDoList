@@ -1,25 +1,10 @@
 <script setup lang="ts">
 
-import { useTaskStore } from '../stores/taskStore'
 
-import { computed } from 'vue'
+import { useTaskStore } from '../stores/taskStore'
 
 
 const taskStore = useTaskStore()
-
-
-
-const pendentes = computed(()=>{
-
-
-return taskStore.tarefas.filter(
-
-t => !t.concluida
-
-).length
-
-
-})
 
 
 </script>
@@ -27,26 +12,27 @@ t => !t.concluida
 
 <template>
 
+    <h1>Dashboard</h1>
 
-<h1>Dashboard</h1>
+    <div>
+        <h3>Total de tarefas</h3>
 
+        <p>
+            {{ taskStore.tarefas.length }}
+        </p>
 
-<p>
-Total:
-{{ taskStore.tarefas.length }}
-</p>
+        <h3>Concluídas</h3>
 
+        <p>
+            {{ taskStore.tarefasConcluidas.length }}
+        </p>
 
-<p>
-Concluídas:
-{{ taskStore.tarefasConcluidas.length }}
-</p>
+        <h3>Pendentes</h3>
 
-
-<p>
-Pendentes:
-{{ pendentes }}
-</p>
+        <p>
+            {{ taskStore.tarefasPendentes.length }}
+        </p>
+    </div>
 
 
 </template>
