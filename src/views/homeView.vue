@@ -1,79 +1,12 @@
-<script setup>
-import { ref, computed, watch } from 'vue'
-import TaskForm from '@/components/taskForm.vue'
-import TaskList from '@/components/taskList.vue'
+<script setup lang="ts">
+
+import TaskForm from '../components/TaskForm.vue'
+import TaskList from '../components/TaskList.vue'
+
+import { useTaskStore } from '../stores/taskStore'
 
 
-const tarefas = ref(
-
-  JSON.parse(
-    localStorage.getItem('tarefas') || '[]'
-  )
-
-)
-
-
-function adicionarTarefa(nome) {
-
-  tarefas.value.push({
-
-    id: Date.now(),
-
-    titulo: nome,
-
-    concluida: false
-
-  })
-
-}
-
-function concluirTarefa(id) {
-
-  const tarefa = tarefas.value.find(
-    tarefa => tarefa.id === id
-  )
-
-
-  tarefa.concluida = !tarefa.concluida
-
-}
-
-function excluirTarefa(id) {
-
-  tarefas.value = tarefas.value.filter(
-    tarefa => tarefa.id !== id
-  )
-
-}
-
-const tarefasConcluidas = computed(() => {
-
-  return tarefas.value.filter(
-    tarefa => tarefa.concluida
-  )
-
-})
-
-
-
-watch(
-  tarefas,
-  (novasTarefas) => {
-
-
-    localStorage.setItem(
-
-      'tarefas',
-
-      JSON.stringify(novasTarefas)
-    )      
-
-  },
-
-  {
-    deep: true
-  }
-)
+const taskStore = useTaskStore()
 
 
 </script>
@@ -81,19 +14,23 @@ watch(
 
 <template>
 
-
-  <TaskForm @adicionar="adicionarTarefa" />
-
-
-  <h2>Tarefas</h2>
-
-  <TaskList :tarefas="tarefas" @concluir="concluirTarefa" @excluir="excluirTarefa" />
+<h1>Minhas tarefas</h1>
 
 
-  <h2>Concluídas</h2>
+<TaskForm
+@adicionar="taskStore.adicionarTarefa"
+/>
 
 
-  <TaskList :tarefas="tarefasConcluidas" @concluir="concluirTarefa" @excluir="excluirTarefa" />
+<TaskList
+
+:tarefas="taskStore.tarefas"
+
+@concluir="taskStore.concluirTarefa"
+
+@excluir="taskStore.excluirTarefa"
+
+/>
 
 
 </template>

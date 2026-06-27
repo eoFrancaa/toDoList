@@ -1,27 +1,23 @@
-<script setup>
+<script setup lang="ts">
+
+import { useTaskStore } from '../stores/taskStore'
 
 import { computed } from 'vue'
 
 
-const tarefas = JSON.parse(
-
-    localStorage.getItem('tarefas') || '[]'
-
-)
+const taskStore = useTaskStore()
 
 
-const total = computed(() => {
 
-    return tarefas.length
-
-})
+const pendentes = computed(()=>{
 
 
-const concluidas = computed(() => {
+return taskStore.tarefas.filter(
 
-    return tarefas.filter(
-        t => t.concluida
-    ).length
+t => !t.concluida
+
+).length
+
 
 })
 
@@ -32,23 +28,25 @@ const concluidas = computed(() => {
 <template>
 
 
-    <h1>Dashboard</h1>
+<h1>Dashboard</h1>
 
 
-    <p>
-        Total de tarefas: {{ total }}
-    </p>
+<p>
+Total:
+{{ taskStore.tarefas.length }}
+</p>
 
 
-    <p>
-        Concluídas: {{ concluidas }}
-    </p>
+<p>
+Concluídas:
+{{ taskStore.tarefasConcluidas.length }}
+</p>
 
 
-    <p>
-        Pendentes:
-        {{ total - concluidas }}
-    </p>
+<p>
+Pendentes:
+{{ pendentes }}
+</p>
 
 
 </template>
