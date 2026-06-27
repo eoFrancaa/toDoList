@@ -11,21 +11,14 @@ import { useRouter } from 'vue-router'
 
 const auth = useAuthStore()
 
-
 const router = useRouter()
-
-
 
 const nome = ref('')
 
 
-
 function entrar(){
 
-
 auth.login(nome.value)
-
-
 router.push('/')
 
 
@@ -43,24 +36,10 @@ router.push('/')
 
 
 
-<input
-
-v-model="nome"
-
-placeholder="Seu nome"
-
-/>
+<input v-model="nome"placeholder="Seu nome"/>
 
 
-<button
-
-@click="entrar"
-
->
-
-Entrar
-
-</button>
+<button @click="entrar">Entrar</button>
 
 
 </template>

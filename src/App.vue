@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import { CheckSquare,LayoutDashboard,LogOut} from 'lucide-vue-next'
 import { useAuthStore } from './stores/authStore'
 
 
@@ -15,11 +15,15 @@ const auth = useAuthStore()
 <div class="layout">
 
 
-<aside class="sidebar">
+<<aside class="sidebar">
 
 
 <h2 class="logo">
-✓ Tasks
+
+<CheckSquare />
+
+Tasks
+
 </h2>
 
 
@@ -29,47 +33,45 @@ const auth = useAuthStore()
 
 <router-link to="/">
 
-📝 Tarefas
+
+<CheckSquare />
+
+<span>
+Tarefas
+</span>
+
 
 </router-link>
+
 
 
 
 <router-link to="/dashboard">
 
-📊 Dashboard
+
+<LayoutDashboard />
+
+
+<span>Dashboard</span>
+
 
 </router-link>
-
 
 
 </nav>
 
 
 
-<div class="profile" v-if="auth.logado">
+
+<div class="profile"v-if="auth.logado">
 
 
-<div>
+<p>Olá,<strong>{{ auth.usuario }}</strong></p>
 
-Olá,
-
-<strong>
-{{ auth.usuario }}
-</strong>
-
-</div>
-
-
-<button @click="auth.logout">
-
-Sair
-
-</button>
+<button @click="auth.logout"><LogOut />Sair</button>
 
 
 </div>
-
 
 
 </aside>
@@ -95,6 +97,12 @@ Sair
 
 
 <style scoped>
+
+.logo,nav a,button{
+display:flex;
+align-items:center;
+gap:10px;
+}
 
 
 .layout{
