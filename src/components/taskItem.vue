@@ -6,7 +6,8 @@ const props = defineProps({
 
 
 const emit = defineEmits([
-    'concluir'
+    'concluir',
+    'excluir'
 ])
 
 
@@ -16,6 +17,11 @@ function marcarConcluida() {
 
 }
 
+function excluir() {
+
+    emit('excluir', props.tarefa.id)
+
+}
 </script>
 
 
@@ -32,18 +38,20 @@ function marcarConcluida() {
 
         </span>
 
+
+        <button @click="excluir">
+            Excluir
+        </button>
     </div>
 
 </template>
 
 <style scoped>
+.concluida {
 
-.concluida{
+    text-decoration: line-through;
 
-text-decoration: line-through;
-
-opacity:0.5;
+    opacity: 0.5;
 
 }
-
 </style>

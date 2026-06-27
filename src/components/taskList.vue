@@ -9,7 +9,8 @@ defineProps({
 
 
 const emit = defineEmits([
-    'concluir'
+    'concluir',
+    'excluir'
 ])
 
 
@@ -18,12 +19,16 @@ function concluir(id) {
     emit('concluir', id)
 
 }
+function excluir(id) {
 
+    emit('excluir', id)
+
+}
 </script>
 
 
 <template>
 
-    <TaskItem v-for="tarefa in tarefas" :key="tarefa.id" :tarefa="tarefa" @concluir="concluir" />
+    <TaskItem v-for="tarefa in tarefas" :key="tarefa.id" :tarefa="tarefa" @concluir="concluir" @excluir="excluir" />
 
 </template>
