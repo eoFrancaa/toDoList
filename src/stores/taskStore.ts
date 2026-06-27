@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { useAuthStore } from './authStore'
 
 
 interface Tarefa {
@@ -17,15 +18,26 @@ interface Tarefa {
 export const useTaskStore = defineStore('tasks', () => {
 
 
-  const tarefas = ref<Tarefa[]>(
+  const auth = useAuthStore()
 
-    JSON.parse(
 
-      localStorage.getItem('tarefas') || '[]'
+  const todasTarefas = ref(JSON.parse(localStorage.getItem('tarefas') || '{}'))
 
-    )
 
-  )
+  const tarefas = computed(() => {
+
+
+    if (!auth.usuario) {
+
+      return []
+
+    }
+
+
+    return todasTarefas.value[auth.usuario] || []
+
+
+  })
 
 
 
@@ -60,18 +72,25 @@ export const useTaskStore = defineStore('tasks', () => {
   function adicionarTarefa(titulo: string) {
 
 
-    tarefas.value.push({
+    if (!auth.usuario) return
 
+    if (!todasTarefas.value[auth.usuario]) {
+
+      todasTarefas.value[auth.usuario] = []
+    }
+
+    todasTarefas.value[auth.usuario].push({
       id: Date.now(),
-
       titulo,
-
       concluida: false
+
 
     })
 
 
+
     salvar()
+
 
   }
 
@@ -80,11 +99,10 @@ export const useTaskStore = defineStore('tasks', () => {
   function concluirTarefa(id: number) {
 
 
-    const tarefa = tarefas.value.find(
-
-      t => t.id === id
-
-    )
+    const tarefa = todasTarefas.value[auth.usuario]
+      .find(
+        t => t.id === id
+      )
 
 
     if (tarefa) {
@@ -103,11 +121,13 @@ export const useTaskStore = defineStore('tasks', () => {
   function excluirTarefa(id: number) {
 
 
-    tarefas.value = tarefas.value.filter(
+    todasTarefas.value[auth.usuario] =
 
-      t => t.id !== id
+      todasTarefas.value[auth.usuario].filter(
 
-    )
+        t => t.id !== id
+
+      )
 
 
     salvar()
@@ -119,15 +139,7 @@ export const useTaskStore = defineStore('tasks', () => {
 
   function salvar() {
 
-
-    localStorage.setItem(
-
-      'tarefas',
-
-      JSON.stringify(tarefas.value)
-
-    )
-
+    localStorage.setItem('tarefas', JSON.stringify(todasTarefas.value))
 
   }
 
