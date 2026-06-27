@@ -22,6 +22,15 @@ function adicionarTarefa(nome){
     })
 
 }
+function concluirTarefa(id){
+
+ const tarefa = tarefas.value.find(
+   tarefa => tarefa.id === id
+ )
+
+ tarefa.concluida = !tarefa.concluida
+
+}
 
 </script>
 
@@ -29,7 +38,8 @@ function adicionarTarefa(nome){
 
   <TaskForm @adicionar="adicionarTarefa" />
 
-  <TaskList :tarefas="tarefas" />
+  <TaskList :tarefas="tarefas"
+   @concluir="concluirTarefa"/>
 </template>
 
 <style scoped></style>
