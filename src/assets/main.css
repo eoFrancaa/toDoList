@@ -43,3 +43,55 @@ opacity:.8;
 
 
 }
+@media (prefers-color-scheme: dark){
+
+
+body{
+background:linear-gradient(135deg,#1c1c1e,#000);
+color:#f5f5f7;
+
+}
+
+
+.sidebar,.task,.cards div,.nav{
+background:rgba(28,28,30,.75);
+border:1px solid rgba(255,255,255,.1);
+box-shadow:0 15px 40px rgba(0,0,0,.5);
+
+}
+
+body,
+.sidebar,
+.task,
+.cards div,
+button,
+input{
+
+transition: background .3s,color .3s, border .3s;
+
+}
+
+nav a{
+color:#ccc;
+}
+
+nav a:hover{
+background:#2c2c2e;
+}
+
+
+input{
+background:#1c1c1e;
+color:white;
+border:1px solid #444;
+}
+
+
+
+button{
+background:#0a84ff;
+}
+
+
+
+}

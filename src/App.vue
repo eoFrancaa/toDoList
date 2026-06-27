@@ -15,7 +15,7 @@ const auth = useAuthStore()
 <div class="layout">
 
 
-<<aside class="sidebar">
+<aside class="sidebar">
 
 
 <h2 class="logo">
