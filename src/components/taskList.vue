@@ -1,37 +1,29 @@
 <script setup>
 
-import TaskItem from './TaskItem.vue'
+import TaskItem from './taskItem.vue'
 
 
 defineProps({
- tarefas:Array
+    tarefas: Array
 })
 
 
 const emit = defineEmits([
- 'concluir'
+    'concluir'
 ])
 
 
-function concluir(id){
+function concluir(id) {
 
- emit('concluir', id)
+    emit('concluir', id)
 
 }
+
 </script>
 
 
 <template>
 
-<div>
-
-<TaskItem
- v-for="tarefa in tarefas"
- :key="tarefa.id"
- :tarefa="tarefa"
- @concluir="concluir"
-/>
-
-</div>
+    <TaskItem v-for="tarefa in tarefas" :key="tarefa.id" :tarefa="tarefa" @concluir="concluir" />
 
 </template>

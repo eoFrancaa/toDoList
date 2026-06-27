@@ -6,7 +6,7 @@ const texto = ref('')
 
 const emit = defineEmits(['adicionar'])
 
-function adicionar(){
+function adicionar() {
 
     emit('adicionar', texto.value)
 
@@ -19,11 +19,8 @@ function adicionar(){
 
 <template>
 
-<input 
-v-model="texto"
-placeholder="Nova tarefa"
-/>
+    <input v-model="texto" placeholder="Nova tarefa" />
 
-<button @click="adicionar">Adicionar</button>
+    <button @click="adicionar">Adicionar</button>
 
 </template>

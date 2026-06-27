@@ -1,18 +1,18 @@
 <script setup>
 
 const props = defineProps({
-  tarefa: Object
+    tarefa: Object
 })
 
 
 const emit = defineEmits([
-  'concluir'
+    'concluir'
 ])
 
 
-function marcarConcluida(){
+function marcarConcluida() {
 
-  emit('concluir', props.tarefa.id)
+    emit('concluir', props.tarefa.id)
 
 }
 
@@ -21,17 +21,29 @@ function marcarConcluida(){
 
 <template>
 
-<div>
+    <div>
 
-  <input 
-    type="checkbox"
-    @click="marcarConcluida"
-  >
+        <input type="checkbox" @change="marcarConcluida" />
 
-  <span>
-    {{ tarefa.titulo }}
-  </span>
 
-</div>
+        <span :class="{ concluida: tarefa.concluida }">
+
+            {{ tarefa.titulo }}
+
+        </span>
+
+    </div>
 
 </template>
+
+<style scoped>
+
+.concluida{
+
+text-decoration: line-through;
+
+opacity:0.5;
+
+}
+
+</style>
