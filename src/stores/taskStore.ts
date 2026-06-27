@@ -15,16 +15,36 @@ interface Tarefa {
 
 
 
+type ListaTarefas = {
+
+  [usuario: string]: Tarefa[]
+
+}
+
+
+
+
 export const useTaskStore = defineStore('tasks', () => {
 
 
   const auth = useAuthStore()
 
 
-  const todasTarefas = ref(JSON.parse(localStorage.getItem('tarefas') || '{}'))
+
+  const todasTarefas = ref<ListaTarefas>(
+
+    JSON.parse(
+
+      localStorage.getItem('tarefas') || '{}'
+
+    )
+
+  )
 
 
-  const tarefas = computed(() => {
+
+
+  const tarefas = computed<Tarefa[]>(() => {
 
 
     if (!auth.usuario) {
@@ -41,17 +61,23 @@ export const useTaskStore = defineStore('tasks', () => {
 
 
 
+
+
+
   const tarefasConcluidas = computed(() => {
 
 
     return tarefas.value.filter(
 
-      t => t.concluida
+      (t: Tarefa) => t.concluida
 
     )
 
 
   })
+
+
+
 
 
 
@@ -60,7 +86,7 @@ export const useTaskStore = defineStore('tasks', () => {
 
     return tarefas.value.filter(
 
-      t => !t.concluida
+      (t: Tarefa) => !t.concluida
 
     )
 
@@ -69,19 +95,33 @@ export const useTaskStore = defineStore('tasks', () => {
 
 
 
+
+
+
   function adicionarTarefa(titulo: string) {
 
 
     if (!auth.usuario) return
 
+
+
     if (!todasTarefas.value[auth.usuario]) {
 
+
       todasTarefas.value[auth.usuario] = []
+
+
     }
 
+
+
     todasTarefas.value[auth.usuario].push({
+
+
       id: Date.now(),
+
       titulo,
+
       concluida: false
 
 
@@ -96,52 +136,95 @@ export const useTaskStore = defineStore('tasks', () => {
 
 
 
+
+
+
+
   function concluirTarefa(id: number) {
 
 
-    const tarefa = todasTarefas.value[auth.usuario]
-      .find(
-        t => t.id === id
-      )
+    if (!auth.usuario) return
+
+
+
+    const tarefa = todasTarefas.value[auth.usuario]?.find(
+
+
+      (t: Tarefa) => t.id === id
+
+
+    )
+
 
 
     if (tarefa) {
 
+
       tarefa.concluida = !tarefa.concluida
+
 
     }
 
 
+
     salvar()
 
+
   }
+
+
+
+
 
 
 
   function excluirTarefa(id: number) {
 
 
+    if (!auth.usuario) return
+
+
+
     todasTarefas.value[auth.usuario] =
 
       todasTarefas.value[auth.usuario].filter(
 
-        t => t.id !== id
+
+        (t: Tarefa) => t.id !== id
+
 
       )
 
 
+
     salvar()
 
+
   }
+
+
+
 
 
 
 
   function salvar() {
 
-    localStorage.setItem('tarefas', JSON.stringify(todasTarefas.value))
+
+    localStorage.setItem(
+
+      'tarefas',
+
+      JSON.stringify(todasTarefas.value)
+
+    )
+
 
   }
+
+
+
+
 
 
 

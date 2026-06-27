@@ -1,10 +1,11 @@
-<script setup>
+<script setup lang="ts">
 
 import TaskItem from './taskItem.vue'
 
 
 defineProps({
-    tarefas: Array
+    tarefas:{ type: Array, required: true }
+
 })
 
 
